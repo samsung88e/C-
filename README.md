@@ -1,50 +1,83 @@
-# C++
-# CSCI3081w Program Design &amp; Development based Proejcts
-# Instructor: Tim Wrenn, 2021 Spring.
+## Pre-requisites
+  * [Git](https://git-scm.com/)
 
-This semester, we’ll be working on a visual project using interactive 3D computer graphics.  You will be tasked with building a virtual delivery system from the ground up using drones, automated trucks, and automated robots. All of the delivery mechanisms will run on a battery and will be subject to the laws of physics. I.e. Vector Math.  For the trucks and robots they must follow the roads/sidewalks around the University of Minnesota campus (please note we may expand the simulation to execute in other locales). We will be giving you the shortest path for drone/robot to deliver the products. Drones on the other hand, will be allowed to due what is called a "beeline" delivery. I.e. point to point. There will be restrictions in place on how the drone can fly with a package/battery, thus collision avoidance must be implemented. In addition, the simulation will incorporate recharging stations where based upon the battery life of a drone, truck, or robot, the entities will determine when and where to recharge their batteries. 
+## Docker Pre-requisites
+  * Windows 10 Home
+    * Install [wsl2 and Ubuntu](https://www.youtube.com/watch?v=ilKQHAFeQR0&list=RDCMUCzLbHrU7U3cUDNQWWAqjceA&start_radio=1&t=7)
+  * Install [Docker Desktop](https://hub.docker.com/?overlay=onboarding) from [Docker Hub](https://hub.docker.com/)
+  * Linux
+    * Use [docker group instead of sudo](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04)
 
-This is important, because you do not want a drone to drop a package or fall to the ground. In addition, you also don't want trucks or robots to stall in the middle of a intersection.
+## Getting Started with Docker
 
-Due to increasing demand with online delivery and recent advances in autonomous technology, companies are excited to compete in logistics using the third dimension.  As with anything, however, new technologies require overcoming significant challenges before implementation and deployment.  These include but are not limited to physics, logistics, route planning, malfunctions, security, congestion, and cost.  You and your team will prototype and simulate a real-world application, and optimize it for productivity in three separate iterations:
+1. Build docker image
 
-Iteration 1 - Proof of Concept (Prototyping):  The first goal is to develop a prototype of the system.  Here we ask the question, can we get such a system to work at all?
+    ```bash
+    bin/build-env.sh
+    ```
 
-Iteration 2 - Development: In the development phase, we build the actual system to make it work and be useful.
+2. Run docker image
 
-Iteration 3 - Analysis and Optimization: Here we enhance the system to handle real-world scenarios and more complicated situations.  This involves data driven system analysis.
+    ```bash
+    #Usage bin/run-env.sh <port - optional(default 8081)>
+    bin/run-env.sh
+    ```
+    
+3. Build project web server (inside docker image) NOTE: You won't be able to `cd` here yet because the project directory does not exist. If you were able to launch the above commands you should now be inside the docker image. You can exit it with CTRL+D now.
 
- Skills learned:
+    ```bash
+    # Inside docker image
+    cd /home/user/repo/project
+    make
+    ```
+    
+4. Run web server (inside docker image)
 
-Teamwork - For each iteration you will work together in a team in some form. Each team member will have a role and all team members will be involved in writing the software for the project. 
+    ```bash
+    # MUST be within project/ directory inside docker image
+    cd /home/user/repo/project
+    ./bin/run.sh
+    ```
+    
+5. Open up Firefox and browse to http://127.0.0.1:8081/
 
-Creativity - You have freedom to be creative, exploring the art and science of software engineering.
 
-Program Design - You will learn the tools for designing flexible software.  The course will also cover key design patterns that will be helpful in developing a complex system.
+## Getting Started using SSH on CSE Lab machines
 
-Program Development - You will learn technologies helpful for developing a large complicated system using multiple developers and many classes.
+1. Run the ssh environment
+    ```bash
+    # Run the ssh environment
+    # Example: ./bin/ssh-env.sh <x500> <port> <computer num>
+    ./bin/ssh-env.sh myx500 8081 05
+    ```
 
-Testing - You will learn how to test your system to make it robust. I.e. Test Driven Software Development.
+2. Build and run the simulation
 
-Deployment - You will learn how to identify and use multiple methods for documenting code and releasing your system to both developers and users.
+    ```bash
+    cd /path/to/project
+    make -j
+    ./bin/run.sh
+    ```
+  
+5. Open up Firefox and browse to http://127.0.0.1:8081/
 
-New Technology - In this course we will use new technologies to accomplish our goals including key data structures and algorithms.  The technologies learned in this class will hopefully look great on your resume or CV.
+## Getting Started with VOLE-3D or VOLE
 
-Working in Teams
+1. Log on to [VOLE-3D or VOLE](https://vole.cse.umn.edu/) (VOLE is slower for graphics, but is great for tests, etc...)
 
-This is a very social class.  You are not only encouraged to work in groups, but in this course it is often required.  Teamwork and communication are important skills to acquire for any computer science career, whether in the industry or in academia.  However, there are special challenges related to teamwork in an academic learning environment (e.g. uneven division of work, fairness in grading, group dynamics, etc.…).  To overcome these types hurdles, we have implemented several course design decisions in hopes to optimize the advantages of teamwork:
+2. Build project
 
- Each student will be assigned to a team of 3 or 4 people at any given time.
+    ```bash
+    cd /path/to/cloned/repository
+    cd project
+    make
+    ```
+    
+ 2. Run project
 
-Teams will be established after the first lab session. You will be picking your teammates. 
-Teams will be the same for the duration of the semester. Exception: If during the semester your team loses teammates, then the staff may decided to add teammates to your team. For example: Suppose Team A has two members and Team B has two members, then we will merge Team A and Team B into a single team. 
-For the boot camp labs you are allowed to get help from your teammates in terms of seeking clarification and/or debugging. The work you submit must be own and not a copy.  Any copying of code from any resource will be met with severe academic repercussions. I.e. An F for the course and expulsion proceedings from the major. Why? So you can be successful in this course.
-For the project, in-class assignments, and labs pertaining to the project you are encouraged to work with your team.  Figure 4 shows how you can work in your team throughout the course.
-All assignments up through Iteration 1 are individual assignments. All work submitted must be your own (See Figure 4).  You may get assistance from your team or instructors, but it must not be copied from anyone or anywhere.  Your design for the solution may be similar. 
-Iteration 2 and 3 are different.  Code can be shared in these iterations (partially in iteration 2 and fully in iteration 3).  Iteration 2 has both a team grade and an individual grade.  Iteration 3 has only a team grade.  A team grade, means the whole team gets the same grade based on the result. The team will decide which iteration 1 solution to use to complete all subsequent iterations. 
-If there is a serious problem with a team, please contact the instructor.  This should be only done in the case of extreme situations.  Consider the following:
-In the real world, you will often not choose who you will be working with, so working with a diverse group of people will be a necessary skill to develop.
-Teams are there to help, not hinder, especially in cases for the individual work.
-You will always have the option to choose the best solution to work with each iteration (You may choose the best implementation to start with).
-Success in the real world is almost always the result of many people working together (e.g. consider the credits of a movie).
-The work required for this course cannot be done by an individual alone.
+    ```bash
+    # MUST be within project/ directory
+    ./bin/run.sh
+    ```
+    
+ 5. Open up Firefox and browse to http://127.0.0.1:8081/
